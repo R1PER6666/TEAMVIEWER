@@ -1,10 +1,31 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="refresh" content="0; url=https://telegra.ph/VEBDarknetmrket-12-17">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Logger</title>
 </head>
 <body>
-    <p>If you are not redirected, <a href="https://telegra.ph/VEBDarknetmrket-12-17">click here</a>.</p>
+    <h1>IP Logger</h1>
+    <button onclick="getIP()">Get IP</button>
+    <p id="ip-info"></p>
+
+    <script>
+        function getIP() {
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('ip-info').textContent = 'IP Provider: ' + data.ip;
+                    fetch('/log-ip', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ ip: data.ip })
+                    });
+                })
+                .catch(error => console.error('Error fetching IP:', error));
+        }
+    </script>
 </body>
 </html>
